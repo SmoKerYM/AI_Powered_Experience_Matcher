@@ -48,7 +48,7 @@ AI Experience Matcher takes a job description and finds the most relevant experi
 └──────────────────────────┬──────────────────────────────────────┘
                            │
                            ▼
-┌────────────────── Optimized LLM Call ───────────────────────────┐
+┌────────────────── Prallelized LLM API Call ─────────────────────┐
 │                                                                 │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
 │  │  GPT-4o-mini │ │  GPT-4o-mini │ │  GPT-4o-mini │             │
@@ -62,7 +62,7 @@ AI Experience Matcher takes a job description and finds the most relevant experi
 │         │                │                │   │  Analysis    │  │
 │         │                │                │   └──────┬───────┘  │
 │         ▼                ▼                ▼          ▼          │
-│  ─ ─ ─ ─ ─ ─ ─  All 4 calls run in parallel (~3-4s) ─ ─ ─ ─ ─ ─ │
+│  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ asyncio.gather() ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
                            ▼
