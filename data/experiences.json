@@ -1,0 +1,201 @@
+[
+  {
+    "id": "exp_001",
+    "title": "Data Analyst/Scientist",
+    "company": "Zendo Technologies",
+    "duration": "May 2025 - September 2025",
+    "description": "Built and maintained a production-grade time-series forecasting system processing 2.8M+ observations, achieving a 7.3% RMSE improvement over seasonal naive baseline through systematic model evaluation and optimisation. Developed robust data pipelines to collect, clean, and combine internal sensor data with external weather information, using vectorized synchronisation algorithms to handle asynchronous multi-source data streams. Performed advanced feature engineering using MSTL seasonal decomposition and K-Means clustering to identify behavioural patterns and segment heterogeneous usage profiles. Benchmarked multiple ML models (Prophet, LightGBM, LSTM, TCN) using MLflow experiment tracking with 5-fold cross-validation. Designed Tableau dashboards and delivered data-driven recommendations through stakeholder presentations.",
+    "skills": ["Python", "SQL", "Pandas", "Tableau", "ETL", "Time Series Analysis", "MLflow", "Prophet", "LightGBM", "LSTM", "TCN", "K-Means Clustering", "Feature Engineering", "MSTL"],
+    "achievements": [
+      "Built production-grade forecasting system processing 2.8M+ observations",
+      "Achieved 7.3% RMSE improvement over seasonal naive baseline",
+      "Benchmarked Prophet, LightGBM, LSTM, TCN with MLflow and 5-fold CV",
+      "Designed Tableau dashboards translating model outputs into business insights"
+    ],
+    "keywords": ["data analyst", "data scientist", "time series forecasting", "ETL pipeline", "energy consumption", "MLflow", "experiment tracking", "model benchmarking", "Prophet", "LightGBM", "LSTM", "TCN", "MSTL decomposition", "K-Means clustering", "feature engineering", "Tableau dashboard", "stakeholder presentation", "cross-validation", "sensor data", "production system"],
+    "category": "work"
+  },
+  {
+    "id": "exp_002",
+    "title": "Predictive Modelling with Automated MLOps Workflow",
+    "company": "Personal Project",
+    "duration": "January 2026 - February 2026",
+    "description": "Engineered a preprocessing pipeline with cyclic encoding, quantile binning, and log-scaling; reduced 12 input features to 6 through correlation analysis and data leakage detection. Benchmarked 4 regression models using MLflow experiment tracking and 5-fold cross-validation with RandomizedSearchCV; improved R² from 0.608 (linear baseline) to 0.808 (LightGBM), selecting LightGBM for 24x faster inference and 180x smaller memory usage over Random Forest. Deployed model as a real-time REST API using FastAPI with Pydantic input validation, containerised with Docker. Designed an Apache Airflow DAG for scheduled monthly retraining with champion-challenger evaluation.",
+    "skills": ["Python", "Pandas", "MLflow", "Feature Engineering", "Cross-Validation", "RandomizedSearchCV", "FastAPI", "Docker", "Apache Airflow", "LightGBM", "Pydantic"],
+    "achievements": [
+      "Improved R² from 0.608 to 0.808 with LightGBM",
+      "Achieved 24x faster inference and 180x smaller memory vs Random Forest",
+      "Deployed real-time REST API with FastAPI and Docker",
+      "Designed Airflow DAG for automated monthly retraining"
+    ],
+    "keywords": ["MLOps", "model deployment", "FastAPI", "Docker", "Apache Airflow", "LightGBM", "regression", "hyperparameter tuning", "RandomizedSearchCV", "preprocessing pipeline", "cyclic encoding", "quantile binning", "data leakage", "feature selection", "champion-challenger", "REST API", "containerisation", "CI/CD", "automated retraining", "MLflow"],
+    "category": "project"
+  },
+  {
+    "id": "exp_003",
+    "title": "Deep Learning Pipeline for Time-Series Imputation",
+    "company": "Imperial College London",
+    "duration": "February 2025 - April 2025",
+    "description": "Engineered a modular deep learning pipeline using PyTorch Lightning to recover missing measurements in multi-decade time-series datasets, implementing LSTM architecture optimised for temporal pattern reconstruction. Built automated data preprocessing pipeline handling large-scale datasets stored in AWS S3, addressing data quality issues including missing values, outliers, and temporal inconsistencies across 8 variables. Integrated Weights & Biases for real-time training monitoring and GPU utilisation tracking; applied Bayesian hyperparameter optimisation achieving 16.8% reduced validation loss. Conducted comprehensive EDA using Matplotlib to identify seasonal trends, correlations, and anomalies.",
+    "skills": ["Python", "PyTorch", "PyTorch Lightning", "Time Series Analysis", "AWS S3", "Weights & Biases", "LSTM", "EDA", "Matplotlib", "Bayesian Optimisation"],
+    "achievements": [
+      "Achieved 16.8% reduced validation loss via Bayesian hyperparameter optimisation",
+      "Built automated preprocessing pipeline for multi-decade time-series on AWS S3",
+      "Integrated W&B for real-time training monitoring and GPU tracking"
+    ],
+    "keywords": ["deep learning", "PyTorch", "PyTorch Lightning", "LSTM", "time series imputation", "missing data", "AWS S3", "Weights & Biases", "W&B", "Bayesian optimisation", "hyperparameter tuning", "GPU", "data preprocessing", "temporal patterns", "EDA", "data quality"],
+    "category": "project"
+  },
+  {
+    "id": "exp_004",
+    "title": "Coffee Shop Sales Analytics Project",
+    "company": "Personal Project",
+    "duration": "October 2025 - December 2025",
+    "description": "Conducted end-to-end analysis of 149K+ transactions across 3 NYC locations using Python; built row-, order-, and daily-level data models covering 15+ analytical dimensions. Identified 127% order growth and 140% revenue growth trajectory through time-series analysis, distinguishing 3 business phases. Applied Pareto analysis revealing Top 25 SKUs driving 80% of revenue; recommended pricing strategy leveraging Ultra tier ($10+) delivering 6x revenue leverage from only 1.3% volume share. Utilised Z-score normalisation to compare hourly patterns across stores, differentiating demand models to inform staffing optimisation. Delivered 8 actionable business recommendations.",
+    "skills": ["Excel", "Python", "SQL", "Data Visualization", "Pareto Analysis", "Time-Series Analysis", "Sales Analysis", "Business Analysis", "Pandas", "Matplotlib", "Seaborn"],
+    "achievements": [
+      "Analyzed 149K+ transactions across 3 NYC locations",
+      "Identified 127% order growth and 140% revenue growth trajectory",
+      "Applied Pareto analysis: Top 25 SKUs driving 80% of revenue",
+      "Delivered 8 actionable business recommendations"
+    ],
+    "keywords": ["sales analytics", "transaction analysis", "Pareto analysis", "revenue growth", "time series", "customer segmentation", "Z-score normalisation", "pricing strategy", "staffing optimisation", "business intelligence", "data modelling", "SKU analysis", "NYC", "retail analytics"],
+    "category": "project"
+  },
+  {
+    "id": "exp_005",
+    "title": "Campus Analytics Platform",
+    "company": "Academic Project",
+    "duration": "2024",
+    "description": "Led A/B testing programme with rigorous experimental design across 3 experiments over 4 weeks; applied t-tests and chi-square tests to validate statistical significance, achieving an 18.6% increase in student engagement. Developed SQL-based analytics system tracking 1,300+ weekly user interactions across 6 campus services; leveraged advanced queries for cohort analysis, funnel analysis, and retention analysis to identify usage bottlenecks. Designed interactive Tableau dashboards for real-time monitoring of engagement metrics and resource utilisation; deployed platform on Azure with automated data refresh pipelines via GitHub Actions.",
+    "skills": ["SQL", "Tableau", "Python", "API Development", "A/B Testing", "Funnel Analysis", "Cohort Analysis", "Retention Analysis", "Azure", "GitHub Actions"],
+    "achievements": [
+      "Achieved 18.6% increase in student engagement via A/B testing",
+      "Tracked 1,300+ weekly user interactions across 6 campus services",
+      "Deployed platform on Azure with automated GitHub Actions pipelines"
+    ],
+    "keywords": ["A/B testing", "statistical significance", "t-test", "chi-square", "cohort analysis", "funnel analysis", "retention analysis", "student engagement", "Tableau dashboard", "Azure deployment", "GitHub Actions", "SQL analytics", "user interactions", "experimental design"],
+    "category": "project"
+  },
+  {
+    "id": "exp_006",
+    "title": "Interview Tutor",
+    "company": "Self-employed",
+    "duration": "February 2026 (2 weeks)",
+    "description": "Mentored undergraduate students applying to competitive postgraduate programmes including Imperial College London's MSc Applied Computational Science and Engineering, drawing on first-hand experience of the application and interview process. Conducted structured mock interviews covering technical reasoning, mathematical foundations, and motivation questions, providing detailed feedback to improve students' confidence and performance. Identified individual knowledge gaps and designed targeted preparation materials tailored to each student's academic background and target programme requirements.",
+    "skills": ["Teaching", "Communication", "Coding Tutoring", "Documentation Writing", "Mentoring"],
+    "achievements": [
+      "Mentored students applying to Imperial College MSc programmes",
+      "Conducted structured mock interviews with personalised feedback",
+      "Designed targeted preparation materials for individual knowledge gaps"
+    ],
+    "keywords": ["interview preparation", "tutoring", "mentoring", "Imperial College", "postgraduate application", "mock interview", "technical interview", "academic coaching", "ACSE", "student support"],
+    "category": "other"
+  },
+  {
+    "id": "exp_007",
+    "title": "Teaching Assistant",
+    "company": "University College Dublin",
+    "duration": "March 2024 - June 2024",
+    "description": "Supported 60+ students across three courses: Data Structures & Algorithms, Information Retrieval, and Intro to Programming, providing one-on-one guidance during weekly lab sessions. Explained complex programming concepts in C and Java including recursion, sorting algorithms, tree structures, and object-oriented design, adapting explanations to different learning styles. Identified recurring student misconceptions and developed targeted worked examples and analogies to address common sticking points. Collaborated closely with professors to align lab content with lecture material.",
+    "skills": ["Teaching", "Communication", "Coding Tutoring", "Documentation Writing", "Data Structures", "C", "Java"],
+    "achievements": [
+      "Supported 60+ students across 3 courses",
+      "Taught C and Java covering recursion, sorting, trees, and OOP",
+      "Developed targeted examples addressing recurring misconceptions"
+    ],
+    "keywords": ["teaching assistant", "TA", "data structures", "algorithms", "information retrieval", "programming", "C", "Java", "recursion", "sorting", "lab sessions", "UCD", "student support", "object-oriented design"],
+    "category": "work"
+  },
+  {
+    "id": "exp_008",
+    "title": "Deep Learning Model Development for Image Restoration",
+    "company": "Imperial College London",
+    "duration": "November 2024 - December 2024",
+    "description": "Designed and implemented a deep learning solution for automated medical image restoration using U-Net architecture in PyTorch. Engineered an encoder-decoder architecture with 4 downsampling/upsampling layers and skip connections, processing 512x512 medical images while preserving fine-grained spatial information. Generated synthetic training datasets using diffusion models (DDIM) to address limited training data availability. Developed custom loss function combining MSE and SSIM for structural coherence, achieving convergence within 30 epochs. Benchmarked U-Net, VAE, and GAN architectures, with U-Net achieving 40% faster training and more stable convergence.",
+    "skills": ["Deep Learning", "PyTorch", "Python", "Image Processing", "Diffusion Models", "Model Evaluation", "U-Net", "Computer Vision"],
+    "achievements": [
+      "Built U-Net achieving 40% faster training than VAE and GAN alternatives",
+      "Generated synthetic training data using diffusion models (DDIM)",
+      "Developed custom MSE+SSIM loss function converging within 30 epochs",
+      "Benchmarked U-Net, VAE, and GAN across multiple performance metrics"
+    ],
+    "keywords": ["deep learning", "U-Net", "image restoration", "medical imaging", "PyTorch", "encoder-decoder", "skip connections", "diffusion models", "DDIM", "SSIM", "PSNR", "computer vision", "synthetic data", "model benchmarking", "GAN", "VAE"],
+    "category": "project"
+  },
+  {
+    "id": "exp_009",
+    "title": "Student Representative",
+    "company": "Imperial College London",
+    "duration": "October 2024 - September 2025",
+    "description": "Represented 60+ students by collecting feedback and raising key concerns during biweekly staff meetings; successfully managed stakeholder relationships and improved hybrid teaching experiences. Organized cross-departmental events, coordinating with internal college staff and external vendors to deliver inclusive catering and engaging activities. Collaborated with other representatives and scheduled the Professional Journey Talk series, inviting faculty to share career insights and inspire students' career planning.",
+    "skills": ["Reporting", "Communication", "Event Organisation", "Cross-Departmental Communication", "Stakeholder Management"],
+    "achievements": [
+      "Represented 60+ students in biweekly staff meetings",
+      "Organised cross-departmental events with internal and external coordination",
+      "Scheduled Professional Journey Talk series with faculty speakers"
+    ],
+    "keywords": ["student representative", "leadership", "stakeholder management", "event organisation", "Imperial College", "feedback collection", "hybrid teaching", "cross-departmental", "public speaking", "advocacy"],
+    "category": "other"
+  },
+  {
+    "id": "exp_010",
+    "title": "Project Leader (Project Manager)",
+    "company": "Imperial College London",
+    "duration": "March 2025 - April 2025",
+    "description": "Led team of 7 to solve graph-based optimization problem using genetic algorithms for mineral separation circuit configuration; structured project into development, integration, and documentation phases to ensure timely delivery. Decomposed complex problem into modular components (GA core, recovery scoring, circuit simulator) and delegated tasks based on team strengths; conducted daily stand-ups to maintain alignment and resolve blockers. Delivered final presentation that received top peer review scores for algorithm design and code clarity.",
+    "skills": ["Project Management", "Software Engineering", "Documentation", "Presentation", "Genetic Algorithms", "Team Leadership"],
+    "achievements": [
+      "Led team of 7 delivering graph-based optimisation project",
+      "Received top peer review scores for algorithm design and code clarity",
+      "Structured project into development, integration, and documentation phases"
+    ],
+    "keywords": ["project management", "team leadership", "genetic algorithms", "graph optimisation", "agile", "stand-ups", "task delegation", "modular design", "presentation", "peer review", "software engineering"],
+    "category": "project"
+  },
+  {
+    "id": "exp_011",
+    "title": "Cafe Staff Member",
+    "company": "Cafe",
+    "duration": "November 2025 - January 2026",
+    "description": "Processed customer orders efficiently using digital menu system, handling cash and card payments with accuracy during busy service periods. Prepared quality coffee, chai, panini, and patharas following recipes and presentation standards. Maintained strict hygiene standards with Level 2 Food Hygiene and Allergen Training certifications. Assisted with daily stock replenishment, monitoring inventory levels, and organizing storage areas. Balanced multiple responsibilities simultaneously while maintaining friendly customer service.",
+    "skills": ["Customer Service", "Payment Handling", "Stock Management", "Food Preparation", "Multitasking", "Food Safety"],
+    "achievements": [
+      "Maintained strict food safety compliance with Level 2 certification",
+      "Managed multiple responsibilities: orders, drinks, food, and payments simultaneously",
+      "Assisted with daily stock replenishment and inventory monitoring"
+    ],
+    "keywords": ["customer service", "hospitality", "food service", "cash handling", "stock management", "food hygiene", "multitasking", "teamwork", "POS", "cafe"],
+    "category": "work"
+  },
+  {
+    "id": "exp_012",
+    "title": "Retail Assistant",
+    "company": "Retail",
+    "duration": "July 2020 - August 2020",
+    "description": "Served 100+ customers daily during peak summer season, processing transactions quickly to minimize queue times. Operated POS system confidently for cash, card, and mobile payments with 100% accuracy. Replenished shelves, unpacked deliveries, and ensured checkout area cleanliness. Resolved customer queries and complaints politely, maintaining a positive store reputation.",
+    "skills": ["Customer Service", "Payment Handling", "POS System", "Stock Monitoring", "Communication"],
+    "achievements": [
+      "Served 100+ customers daily during peak summer season",
+      "Achieved 100% payment accuracy across cash, card, and mobile",
+      "Maintained clean and organised checkout area"
+    ],
+    "keywords": ["retail", "customer service", "POS", "cash handling", "stock replenishment", "sales floor", "summer job", "transactions", "queue management"],
+    "category": "work"
+  },
+  {
+    "id": "exp_013",
+    "title": "Information Retrieval Search Engine",
+    "company": "University College Dublin",
+    "duration": "February 2020 - May 2020",
+    "description": "Designed and implemented a BM25-based document search engine in Python, supporting both a small corpus (1,400 documents) and a large web-crawled corpus with recursive directory traversal. Built a complete text processing pipeline including regex-based tokenisation, stopword removal, and Porter Stemmer normalisation with a stemming cache. Computed and persisted inverted index term weights to disk, enabling fast index loading for subsequent queries. Developed adaptive retrieval strategy using score-threshold filter with 70% cutoff, tuned to balance precision and recall. Implemented full evaluation framework computing six standard IR metrics: Precision, Recall, P@10, R-Precision, MAP, and bpref.",
+    "skills": ["Python", "Information Retrieval", "BM25 Ranking", "Text Processing", "NLP", "Evaluation Metrics"],
+    "achievements": [
+      "Built BM25 search engine supporting small and large corpora",
+      "Implemented 6 standard IR evaluation metrics (Precision, Recall, P@10, R-Precision, MAP, bpref)",
+      "Developed adaptive retrieval with score-threshold filtering"
+    ],
+    "keywords": ["information retrieval", "search engine", "BM25", "inverted index", "text processing", "tokenisation", "stemming", "Porter Stemmer", "NLP", "precision", "recall", "MAP", "ranking", "document retrieval", "evaluation metrics"],
+    "category": "project"
+  }
+]
