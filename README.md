@@ -172,14 +172,14 @@ When you submit a job description:
 
 **Mingwei Yan**
 
-[![GitHub](https://img.shields.io/badge/GitHub-MingweiYan-181717?logo=github)](https://github.com/MingweiYan)
+[![GitHub](https://img.shields.io/badge/GitHub-MingweiYan-181717?logo=github)](https://github.com/SmoKerYM)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Mingwei_Yan-0A66C2?logo=linkedin)](https://www.linkedin.com/in/mingwei-yan-my324/)
 
 ---
 
 ## Acknowledgements
 
-Built with assistance from [Claude Code](https://claude.ai/claude-code) (Claude Opus 4.6).
+Built with assistance from [Claude Code](https://claude.com/product/claude-code) (Claude Opus 4.6).
 
 ---
 
