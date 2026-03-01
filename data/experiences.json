@@ -197,5 +197,21 @@
     ],
     "keywords": ["information retrieval", "search engine", "BM25", "inverted index", "text processing", "tokenisation", "stemming", "Porter Stemmer", "NLP", "precision", "recall", "MAP", "ranking", "document retrieval", "evaluation metrics"],
     "category": "project"
+  },
+  {
+    "id": "exp_014",
+    "title": "AI-Powered Experience Matcher",
+    "company": "Personal Project",
+    "duration": "Jan 2026 - February 2026",
+    "description": "Built a full-stack RAG web application using Python, LangChain, FAISS, OpenAI API, and Streamlit that semantically matches professional experiences to job descriptions and generates tailored resume bullet points, deployed on Streamlit Cloud. Designed a RAG pipeline embedding 13+ experiences with text-embedding-3-small (1536-dim vectors), indexed in FAISS for sub-10ms retrieval, generating tailored bullet points via GPT-4o-mini. Reduced job application preparation time by ~75%, from 20+ minutes to under 5 minutes per application. Optimised cost per query under $0.001 by selecting gpt-4o-mini, engineering concise LangChain prompt templates, and limiting retrieval to top-3 results. Applied @st.cache_resource to cache the FAISS vector store, reducing average query response time from ~15s to ~9s. Deployed to Streamlit Cloud with 3-tier API key resolution (sidebar > st.secrets > .env), cloud-safe /tmp vector store pathing, and auto-redeployment on git push. Built 4 test modules covering environment validation, vector search accuracy, LLM generation quality, and end-to-end integration.",
+    "skills": ["Python", "LangChain", "OpenAI API", "FAISS", "Streamlit", "RAG", "Prompt Engineering", "Vector Search", "Git", "Cloud Deployment"],
+    "achievements": [
+      "Reduced job application prep time by ~75% (20+ min to under 5 min)",
+      "Achieved cost per query under $0.001 with optimised prompts and gpt-4o-mini",
+      "Reduced query response time from ~15s to ~9s via @st.cache_resource caching",
+      "Deployed on Streamlit Cloud with 3-tier API key resolution and auto-redeployment"
+    ],
+    "keywords": ["RAG", "retrieval-augmented generation", "LangChain", "FAISS", "vector search", "semantic search", "OpenAI", "GPT-4o-mini", "text-embedding-3-small", "Streamlit", "prompt engineering", "resume tailoring", "job matching", "cloud deployment", "caching", "API optimisation", "full-stack", "NLP"],
+    "category": "project"
   }
 ]
