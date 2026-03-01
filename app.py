@@ -12,6 +12,22 @@ from src.matcher import ExperienceMatcher
 
 load_dotenv()
 
+IS_CLOUD = bool(os.environ.get("STREAMLIT_SHARING"))
+
+
+def _resolve_api_key(sidebar_input: str = "") -> str:
+    """Resolve API key: sidebar input > st.secrets > .env."""
+    if sidebar_input:
+        return sidebar_input
+    try:
+        key = st.secrets["OPENAI_API_KEY"]
+        if key and key != "your-key-here":
+            return key
+    except (KeyError, FileNotFoundError):
+        pass
+    return os.getenv("OPENAI_API_KEY", "")
+
+
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
@@ -125,7 +141,7 @@ with st.sidebar:
     api_key_input = st.text_input(
         "OpenAI API Key",
         type="password",
-        value=os.getenv("OPENAI_API_KEY", ""),
+        value=_resolve_api_key(),
         help="Enter your OpenAI API key. It's stored only in this session.",
     )
 
@@ -398,6 +414,9 @@ st.caption(
     "and get AI-optimized bullet points."
 )
 
+if IS_CLOUD:
+    st.caption("\u2139\ufe0f Running on Streamlit Cloud")
+
 # ---------------------------------------------------------------------------
 # Experience overview (collapsible)
 # ---------------------------------------------------------------------------
@@ -473,7 +492,8 @@ with col_btn:
 # ---------------------------------------------------------------------------
 
 if analyze_clicked:
-    if not api_key_input:
+    resolved_key = _resolve_api_key(api_key_input)
+    if not resolved_key:
         st.warning("Please enter your OpenAI API key in the sidebar.")
         st.stop()
 
@@ -489,7 +509,7 @@ if analyze_clicked:
 
     try:
         with st.spinner("\U0001f916 Analyzing your experiences..."):
-            matcher = get_matcher(api_key_input)
+            matcher = get_matcher(resolved_key)
 
             if generate_ai:
                 result = matcher.match_and_generate(job_description, top_k=top_k)
