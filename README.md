@@ -96,7 +96,18 @@ cp .env.example .env
 # Edit .env and add your OpenAI API key
 ```
 
-### 5. Run the app
+### 5. Customise your experiences (optional)
+
+Edit `data/experiences.json` with your own professional experiences, then rebuild the vector store:
+
+```bash
+rm -rf experience_vectorstore/
+python run.py "any job description"
+```
+
+The vector store will be automatically rebuilt on the next run. After that, you can use the Streamlit UI or CLI as normal.
+
+### 6. Run the app
 
 **Streamlit UI (recommended):**
 ```bash
