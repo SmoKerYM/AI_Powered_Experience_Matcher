@@ -6,14 +6,15 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![RAG](https://img.shields.io/badge/RAG-Pipeline-8B5CF6)
 
-![Demo](demo/screenshot.png)
+![Demo](demo/screenshot_3.png)
 
 ---
 
 ## What It Does
 
-AI Experience Matcher takes a job description and finds the most relevant experiences from your professional history using semantic vector search. It then uses GPT-4o-mini to rewrite each matched experience with tailored bullet points optimised for the target role. The result is a ranked list of your best-fit experiences with AI-generated descriptions ready to paste into your resume.
+AI Experience Matcher takes a job description and finds the most relevant experiences from your professional history using semantic vector search. It then uses GPT-4o-mini to rewrite each matched experience with tailored bullet points optimised for the target role. The result is a ranked list of your best-fit experiences with AI-generated descriptions **ready to paste** into your resume.
 
 ---
 
@@ -60,8 +61,8 @@ The pipeline follows a **Retrieval-Augmented Generation (RAG)** pattern:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/MingweiYan/AI-Powered-Experience-Matcher.git
-cd AI-Powered-Experience-Matcher
+git clone https://github.com/SmoKerYM/AI_Powered_Experience_Matcher.git
+cd AI_Powered_Experience_Matcher
 ```
 
 ### 2. Create a virtual environment
@@ -104,25 +105,27 @@ cat job_description.txt | python run.py
 ## Project Structure
 
 ```
-AI-Powered-Experience-Matcher/
-├── app.py                  # Streamlit web UI
-├── run.py                  # CLI tool
-├── requirements.txt        # Python dependencies
-├── .env.example            # API key template
-├── .streamlit/
-│   └── config.toml         # Streamlit configuration
+AI_Powered_Experience_Matcher/
+├── data/
+│   ├── experiences.json       # Your professional experiences
+│   └── experiences.md         # Raw experience descriptions
+├── demo/                      # Screenshots and demo media
 ├── src/
 │   ├── __init__.py
-│   ├── config.py           # Model and path constants
-│   ├── matcher.py          # Core RAG pipeline (ExperienceMatcher)
-│   └── prompts.py          # LLM prompt templates
-├── data/
-│   └── experiences.json    # Your professional experiences
-├── demo/                   # Screenshots and demo media
-├── test_setup.py           # Environment validation
-├── test_search.py          # Vector search tests
-├── test_llm.py             # LLM generation tests
-└── test_integration.py     # Full pipeline integration tests
+│   ├── config.py              # Model and path constants
+│   ├── matcher.py             # Core RAG pipeline (ExperienceMatcher)
+│   └── prompts.py             # LLM prompt templates
+├── .env.example               # API key template
+├── .gitignore
+├── LICENSE                    # MIT license
+├── README.md
+├── app.py                     # Streamlit web UI
+├── requirements.txt           # Python dependencies
+├── run.py                     # CLI tool
+├── test_integration.py        # Full pipeline integration tests
+├── test_llm.py                # LLM generation tests
+├── test_search.py             # Vector search tests
+└── test_setup.py              # Environment validation
 ```
 
 ---
@@ -146,7 +149,7 @@ When you submit a job description:
 
 | Metric              | Value             |
 | ------------------- | ----------------- |
-| Query time          | ~5-8s (with LLM)  |
+| Query time          | ~9-12s (with LLM)  |
 | Cost per query      | ~$0.001           |
 | Embedding model     | text-embedding-3-small (1536 dims) |
 | LLM model           | gpt-4o-mini       |
@@ -170,7 +173,7 @@ When you submit a job description:
 **Mingwei Yan**
 
 [![GitHub](https://img.shields.io/badge/GitHub-MingweiYan-181717?logo=github)](https://github.com/MingweiYan)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mingwei_Yan-0A66C2?logo=linkedin)](https://www.linkedin.com/in/mingwei-yan/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mingwei_Yan-0A66C2?logo=linkedin)](https://www.linkedin.com/in/mingwei-yan-my324/)
 
 ---
 

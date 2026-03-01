@@ -690,7 +690,7 @@ if "result" in st.session_state:
 st.markdown(
     '<div class="app-footer">'
     "Built with Python, LangChain, FAISS &amp; Streamlit<br>"
-    '<a href="https://github.com/MingweiYan/AI-Powered-Experience-Matcher">'
+    '<a href="https://github.com/SmoKerYM/AI_Powered_Experience_Matcher">'
     "GitHub</a> &middot; "
     "&copy; 2026 Mingwei Yan"
     "</div>",
