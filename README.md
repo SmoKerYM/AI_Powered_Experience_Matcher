@@ -31,19 +31,45 @@ AI Experience Matcher takes a job description and finds the most relevant experi
 ## Architecture
 
 ```
-Job Description
-      |
-      v
- [ OpenAI Embedding ]  ──>  1536-dim vector
-      |
-      v
- [ FAISS Vector Search ]  ──>  Top-K nearest experiences
-      |
-      v
- [ GPT-4o-mini ]  ──>  Tailored bullet points + Fit analysis
-      |
-      v
- Optimised Output (Streamlit UI / CLI)
+┌─────────────────────────────────────────────────────────────────┐
+│                   Job Description                               │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│              OpenAI Embedding (text-embedding-3-small)          │
+│                      1536-dim vector                            │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                  FAISS Vector Search (<10ms)                    │
+│               L2 distance → Top-K experiences                   │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+┌────────────────── Optimized LLM Call ───────────────────────────┐
+│                                                                 │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐             │
+│  │  GPT-4o-mini │ │  GPT-4o-mini │ │  GPT-4o-mini │             │
+│  │  Exp #1      │ │  Exp #2      │ │  Exp #3      │             │
+│  │  Tailored    │ │  Tailored    │ │  Tailored    │             │
+│  │  Bullets     │ │  Bullets     │ │  Bullets     │             │
+│  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘             │
+│         │                │                │   ┌──────────────┐  │
+│         │                │                │   │  GPT-4o-mini │  │
+│         │                │                │   │  Fit         │  │
+│         │                │                │   │  Analysis    │  │
+│         │                │                │   └──────┬───────┘  │
+│         ▼                ▼                ▼          ▼          │
+│  ─ ─ ─ ─ ─ ─ ─  All 4 calls run in parallel (~3-4s) ─ ─ ─ ─ ─ ─ │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│               Optimised Output (Streamlit UI / CLI)             │
+│         Copy-ready bullets • Skill overlap • Export             │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 The pipeline follows a **Retrieval-Augmented Generation (RAG)** pattern:
@@ -160,8 +186,8 @@ This tool solves that by converting both your experiences and the job descriptio
 When you submit a job description:
 1. It gets embedded into the same vector space as your experiences
 2. FAISS finds the closest matches by L2 distance (equivalent to cosine similarity for normalised vectors)
-3. Each matched experience is sent to GPT-4o-mini along with the job description
-4. The LLM rewrites bullet points to emphasise relevant skills while preserving your actual achievements
+3. All LLM calls run **in parallel** using `asyncio.gather()` — 3 experience rewrites + 1 fit analysis fire concurrently
+4. GPT-4o-mini rewrites bullet points to emphasise relevant skills while preserving your actual achievements
 5. A fit analysis summarises your overall alignment with the role
 
 ---
@@ -170,7 +196,7 @@ When you submit a job description:
 
 | Metric              | Value             |
 | ------------------- | ----------------- |
-| Query time          | ~9-12s (with LLM)  |
+| Query time          | ~3-4s (async LLM)  |
 | Cost per query      | ~$0.001           |
 | Embedding model     | text-embedding-3-small (1536 dims) |
 | LLM model           | gpt-4o-mini       |

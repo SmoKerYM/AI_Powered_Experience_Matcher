@@ -1,5 +1,6 @@
 """Core RAG logic for the AI-Powered Experience Matcher."""
 
+import asyncio
 import json
 import logging
 import os
@@ -328,10 +329,86 @@ class ExperienceMatcher:
         self._track_tokens(response)
         return response.content
 
+    # ------------------------------------------------------------------
+    # Async LLM generation
+    # ------------------------------------------------------------------
+
+    async def _async_tailored_description(
+        self, experience: dict, job_description: str
+    ) -> str:
+        """Async version of generate_tailored_description."""
+        chain = MATCH_CHAT_PROMPT | self.llm
+
+        invoke_kwargs = {
+            "job_description": job_description,
+            "title": experience["title"],
+            "company": experience["company"],
+            "duration": experience["duration"],
+            "description": experience["description"],
+            "skills": ", ".join(experience["skills"]),
+            "achievements": "\n".join(f"- {a}" for a in experience["achievements"]),
+        }
+
+        for attempt in range(2):
+            try:
+                response = await chain.ainvoke(invoke_kwargs)
+                self._track_tokens(response)
+                logger.info(
+                    "Generated tailored description for '%s' (attempt %d)",
+                    experience["title"],
+                    attempt + 1,
+                )
+                return response.content
+            except Exception as e:
+                if attempt == 0:
+                    logger.warning(
+                        "LLM call failed for '%s', retrying: %s",
+                        experience["title"],
+                        e,
+                    )
+                else:
+                    logger.error(
+                        "LLM call failed for '%s' after retry: %s",
+                        experience["title"],
+                        e,
+                    )
+                    raise
+        return ""
+
+    async def _async_fit_analysis(
+        self, matched_results: list[dict], job_description: str
+    ) -> str:
+        """Async version of generate_fit_analysis."""
+        summary_parts = []
+        for r in matched_results:
+            exp = r["experience"]
+            summary_parts.append(
+                f"#{r['rank']} (score: {r['relevance_score']:.2f}) — "
+                f"{exp['title']} at {exp['company']}\n"
+                f"   Skills: {', '.join(exp['skills'])}\n"
+                f"   Achievements: {'; '.join(exp['achievements'])}"
+            )
+
+        chain = ANALYSIS_CHAT_PROMPT | self.llm
+        response = await chain.ainvoke(
+            {
+                "job_description": job_description,
+                "experiences_summary": "\n\n".join(summary_parts),
+            }
+        )
+        self._track_tokens(response)
+        return response.content
+
+    # ------------------------------------------------------------------
+    # Main entry points
+    # ------------------------------------------------------------------
+
     def match_and_generate(
         self, job_description: str, top_k: int = TOP_K_RESULTS
     ) -> dict:
         """Main entry point: search, tailor descriptions, and analyse fit.
+
+        Runs all LLM calls in parallel using asyncio for ~3x speedup.
 
         Args:
             job_description: The target job description text.
@@ -344,18 +421,34 @@ class ExperienceMatcher:
         self._total_input_tokens = 0
         self._total_output_tokens = 0
 
-        # Step 1: Semantic search
+        # Step 1: Semantic search (no LLM, instant)
         search_results = self.search(job_description, top_k=top_k)
 
-        # Step 2: Generate tailored descriptions for each match
-        for result in search_results:
-            result["tailored_description"] = self.generate_tailored_description(
-                result["experience"],
-                job_description,
-            )
+        # Step 2: Run all LLM calls in parallel
+        async def _run_all():
+            tailored_tasks = [
+                self._async_tailored_description(r["experience"], job_description)
+                for r in search_results
+            ]
+            fit_task = self._async_fit_analysis(search_results, job_description)
+            all_results = await asyncio.gather(*tailored_tasks, fit_task)
+            return all_results[:-1], all_results[-1]
 
-        # Step 3: Overall fit analysis
-        fit_analysis = self.generate_fit_analysis(search_results, job_description)
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            # Already inside an event loop (e.g. Streamlit) — use nest_asyncio
+            import nest_asyncio
+            nest_asyncio.apply()
+            tailored_descriptions, fit_analysis = loop.run_until_complete(_run_all())
+        else:
+            tailored_descriptions, fit_analysis = asyncio.run(_run_all())
+
+        for result, desc in zip(search_results, tailored_descriptions):
+            result["tailored_description"] = desc
 
         elapsed = time.time() - start
 
