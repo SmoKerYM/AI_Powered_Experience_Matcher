@@ -427,6 +427,7 @@ with st.expander("\U0001f4da Your Loaded Experiences"):
             loaded_experiences = json.load(f)
 
         st.caption(f"**{len(loaded_experiences)}** experiences loaded")
+        st.info("These are the author's experiences. Experience upload and customisation will be available in a future update.", icon="ℹ️")
 
         overview_data = []
         for exp in loaded_experiences:
