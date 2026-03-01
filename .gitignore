@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+experience_vectorstore/
+.DS_Store
+venv/
+development_docs/
