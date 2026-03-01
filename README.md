@@ -12,6 +12,16 @@
 
 ---
 
+## Live Demo
+
+The app is deployed on **Streamlit Cloud** and can be accessed at:
+
+**[https://aiexperiencematcher.streamlit.app](https://aiexperiencematcher.streamlit.app)**
+
+> **Note:** The experiences currently loaded are the author's own. A feature to upload your own experiences is coming soon.
+
+---
+
 ## What It Does
 
 AI Experience Matcher takes a job description and finds the most relevant experiences from your professional history using semantic vector search. It then uses GPT-4o-mini to rewrite each matched experience with tailored bullet points optimised for the target role. The result is a ranked list of your best-fit experiences with AI-generated descriptions **ready to paste** into your resume.
@@ -159,6 +169,7 @@ When you submit a job description:
 
 ## Future Enhancements
 
+- **Experience upload** — Allow users to upload their own experiences for personalised matching
 - **Cover letter generation** — Auto-generate a cover letter from matched experiences
 - **Skill gap analysis** — Identify missing skills and suggest learning resources
 - **Multi-resume support** — Load multiple experience profiles for different career paths
