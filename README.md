@@ -7,6 +7,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
 ![RAG](https://img.shields.io/badge/RAG-Pipeline-8B5CF6)
+![CI](https://github.com/SmoKerYM/AI_Powered_Experience_Matcher/actions/workflows/ci.yml/badge.svg)
 
 ![Demo](demo/screenshot_3.png)
 
@@ -162,17 +163,22 @@ AI_Powered_Experience_Matcher/
 │   ├── config.py              # Model and path constants
 │   ├── matcher.py             # Core RAG pipeline (ExperienceMatcher)
 │   └── prompts.py             # LLM prompt templates
+├── tests/
+│   ├── conftest.py            # Shared pytest fixtures
+│   ├── test_data_integrity.py # Layer 1: data sanity (0 API calls)
+│   ├── test_retrieval.py      # Layer 2: retrieval quality
+│   ├── test_generation.py     # Layer 3: LLM output structure + LLM-as-judge
+│   └── test_integration.py    # Layer 4: end-to-end pipeline
 ├── .env.example               # API key template
+├── .github/workflows/
+│   └── ci.yml                 # GitHub Actions CI/CD
 ├── .gitignore
 ├── LICENSE                    # MIT license
 ├── README.md
 ├── app.py                     # Streamlit web UI
+├── pyproject.toml             # pytest configuration
 ├── requirements.txt           # Python dependencies
-├── run.py                     # CLI tool
-├── test_integration.py        # Full pipeline integration tests
-├── test_llm.py                # LLM generation tests
-├── test_search.py             # Vector search tests
-└── test_setup.py              # Environment validation
+└── run.py                     # CLI tool
 ```
 
 ---
@@ -189,6 +195,37 @@ When you submit a job description:
 3. All LLM calls run **in parallel** using `asyncio.gather()` — 3 experience rewrites + 1 fit analysis fire concurrently
 4. GPT-4o-mini rewrites bullet points to emphasise relevant skills while preserving your actual achievements
 5. A fit analysis summarises your overall alignment with the role
+
+---
+
+## Testing
+
+The project uses **pytest** with a 4-layer test suite and GitHub Actions CI/CD.
+
+### Test structure
+
+| Layer | File | API calls | What it tests |
+|---|---|---|---|
+| 1 | `test_data_integrity.py` | 0 | JSON schema, required fields, config values, prompt templates |
+| 2 | `test_retrieval.py` | Embeddings | Search count, score range, ranking, relevance for known queries |
+| 3 | `test_generation.py` | LLM | Bullet format, action verbs, skill references, LLM-as-a-judge |
+| 4 | `test_integration.py` | Full pipeline | End-to-end structure, metadata, output quality |
+
+### Run locally
+
+```bash
+# Fast tests only (no API key needed)
+pytest tests/test_data_integrity.py -v
+
+# All tests (requires OPENAI_API_KEY)
+pytest tests/ -v
+```
+
+### CI/CD
+
+GitHub Actions runs two jobs on every push to `main`:
+- **fast-tests** — data integrity checks on every push and PR (~10s, free)
+- **api-tests** — full suite on push to main only (~$0.01/run)
 
 ---
 
