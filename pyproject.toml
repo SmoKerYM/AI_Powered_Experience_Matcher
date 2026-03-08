@@ -1,0 +1,5 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "api: tests that call the OpenAI API (skipped when OPENAI_API_KEY is absent)",
+]
