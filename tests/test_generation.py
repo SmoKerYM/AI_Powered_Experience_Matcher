@@ -121,37 +121,86 @@ def test_track_tokens(mock_matcher):
 
 # ---------------------------------------------------------------------------
 # Real API tests — @pytest.mark.api
+#
+# Search + generate tailored descriptions once, then validate the results.
+# The Zendo experience (exp_001) is known to appear in the top 3 for the
+# sample Data Analyst JD.
 # ---------------------------------------------------------------------------
 
 
+_SAMPLE_JD = (
+    "We are seeking a Data Analyst with 1-3 years of experience. "
+    "Required: Python, SQL, data visualization (Tableau or PowerBI). "
+    "Nice to have: ETL pipeline experience, machine learning basics, "
+    "cloud platforms (AWS/Azure). You will analyze large datasets, "
+    "build dashboards, and present insights to stakeholders."
+)
+
+
+@pytest.fixture(scope="module")
+def generation_results(matcher_with_vectorstore):
+    """Search and generate tailored descriptions once for all generation tests."""
+    search_results = matcher_with_vectorstore.search(_SAMPLE_JD)
+    tailored = {}
+    for r in search_results:
+        exp = r["experience"]
+        desc = matcher_with_vectorstore.generate_tailored_description(exp, _SAMPLE_JD)
+        tailored[exp["company"]] = {
+            "experience": exp,
+            "tailored_description": desc,
+        }
+    return {
+        "search_results": search_results,
+        "tailored": tailored,
+    }
+
+
 @pytest.mark.api
-def test_real_tailored_description_format(matcher_with_vectorstore, sample_jd):
-    """Verify real LLM output has bullet points and reasonable length."""
-    exp = matcher_with_vectorstore.experiences[0]
-    result = matcher_with_vectorstore.generate_tailored_description(exp, sample_jd)
-
-    assert isinstance(result, str)
-    assert len(result) > 100, "Tailored description too short"
-    assert len(result) < 2000, "Tailored description too long"
-    bullet_count = result.count("-") + result.count("•")
-    assert bullet_count >= 2, f"Expected bullet points, got: {result[:100]}..."
+def test_zendo_in_search_results(generation_results):
+    """Zendo Technologies should appear in the top 3 for the Data Analyst JD."""
+    assert "Zendo Technologies" in generation_results["tailored"], (
+        f"Zendo not in results. Got: {list(generation_results['tailored'].keys())}"
+    )
 
 
 @pytest.mark.api
-def test_real_tailored_description_starts_with_action_verb(
-    matcher_with_vectorstore, sample_jd
-):
-    """Each bullet point should start with a strong action verb."""
-    exp = matcher_with_vectorstore.experiences[0]
-    result = matcher_with_vectorstore.generate_tailored_description(exp, sample_jd)
-
+def test_zendo_bullet_count(generation_results):
+    """Zendo tailored description should have 3-4 bullet points."""
+    desc = generation_results["tailored"]["Zendo Technologies"]["tailored_description"]
     bullets = [
-        line.strip().lstrip("-•").strip()
-        for line in result.strip().split("\n")
+        line.strip()
+        for line in desc.strip().split("\n")
         if line.strip().startswith(("-", "•"))
     ]
-    assert len(bullets) >= 2, "Not enough bullet points found"
+    assert 3 <= len(bullets) <= 4, (
+        f"Expected 3-4 bullet points, got {len(bullets)}"
+    )
 
+
+@pytest.mark.api
+def test_zendo_bullet_length(generation_results):
+    """Each bullet point should be 1-2 lines (30-200 chars)."""
+    desc = generation_results["tailored"]["Zendo Technologies"]["tailored_description"]
+    bullets = [
+        line.strip().lstrip("-•").strip()
+        for line in desc.strip().split("\n")
+        if line.strip().startswith(("-", "•"))
+    ]
+    for bullet in bullets:
+        assert 30 <= len(bullet) <= 200, (
+            f"Bullet length {len(bullet)} out of range: '{bullet[:60]}...'"
+        )
+
+
+@pytest.mark.api
+def test_zendo_bullets_start_with_action_verb(generation_results):
+    """Each Zendo bullet should start with a strong action verb."""
+    desc = generation_results["tailored"]["Zendo Technologies"]["tailored_description"]
+    bullets = [
+        line.strip().lstrip("-•").strip()
+        for line in desc.strip().split("\n")
+        if line.strip().startswith(("-", "•"))
+    ]
     for bullet in bullets:
         first_word = bullet.split()[0].lower().rstrip(",:")
         is_action_verb = first_word in ACTION_VERBS or first_word.endswith("ed")
@@ -162,30 +211,90 @@ def test_real_tailored_description_starts_with_action_verb(
 
 
 @pytest.mark.api
-def test_real_tailored_description_references_skills(
-    matcher_with_vectorstore, sample_jd
-):
-    """Anti-hallucination: at least 1 original skill appears in output."""
-    exp = matcher_with_vectorstore.experiences[0]
-    result = matcher_with_vectorstore.generate_tailored_description(exp, sample_jd)
-
-    result_lower = result.lower()
-    original_skills = [s.lower() for s in exp["skills"]]
-    matched = sum(1 for s in original_skills if s in result_lower)
-    assert matched >= 1, (
-        f"No original skills found in output. Skills: {exp['skills']}"
+def test_zendo_references_jd_keywords(generation_results):
+    """At least one keyword from the JD should appear in the tailored output."""
+    desc = generation_results["tailored"]["Zendo Technologies"]["tailored_description"].lower()
+    jd_keywords = ["python", "sql", "data", "tableau", "etl", "dashboard", "visualization"]
+    matched = [kw for kw in jd_keywords if kw in desc]
+    assert len(matched) >= 1, (
+        f"No JD keywords found in output. Checked: {jd_keywords}"
     )
 
 
 @pytest.mark.api
-def test_real_fit_analysis_contains_assessment(matcher_with_vectorstore, sample_jd):
+def test_zendo_references_original_skills(generation_results):
+    """Anti-hallucination: at least 1 original Zendo skill appears in output."""
+    entry = generation_results["tailored"]["Zendo Technologies"]
+    desc_lower = entry["tailored_description"].lower()
+    original_skills = [s.lower() for s in entry["experience"]["skills"]]
+    matched = sum(1 for s in original_skills if s in desc_lower)
+    assert matched >= 1, (
+        f"No original skills found in output. Skills: {entry['experience']['skills']}"
+    )
+
+
+@pytest.mark.api
+def test_real_fit_analysis_contains_assessment(matcher_with_vectorstore):
     """Verify fit analysis contains a strength assessment word."""
-    search_results = matcher_with_vectorstore.search(sample_jd)
-    result = matcher_with_vectorstore.generate_fit_analysis(search_results, sample_jd)
+    search_results = matcher_with_vectorstore.search(_SAMPLE_JD)
+    result = matcher_with_vectorstore.generate_fit_analysis(search_results, _SAMPLE_JD)
 
     assert isinstance(result, str)
     assert len(result) > 20, "Fit analysis too short"
     result_lower = result.lower()
     assert any(w in result_lower for w in ["strong", "moderate", "weak"]), (
         f"No strength assessment found in: {result[:100]}..."
+    )
+
+
+@pytest.mark.api
+def test_llm_as_judge_relevance_and_specificity(generation_results):
+    """LLM-as-a-judge: GPT-4o-mini scores the best-match tailored output >= 3/5."""
+    # Find the best-match experience (first in search results)
+    best_company = generation_results["search_results"][0]["experience"]["company"]
+    best_entry = generation_results["tailored"][best_company]
+    tailored_desc = best_entry["tailored_description"]
+
+    judge_prompt = f"""You are an expert resume reviewer. Score the following tailored bullet points
+on two criteria, given the job description they were written for.
+
+Job Description:
+{_SAMPLE_JD}
+
+Tailored Bullet Points:
+{tailored_desc}
+
+Score each criterion from 1 (poor) to 5 (excellent):
+1. Relevance: How well do the bullet points address the specific requirements in the JD?
+2. Specificity: Do the bullet points include concrete details, metrics, and action verbs rather than vague claims?
+
+Respond with ONLY two lines in this exact format:
+Relevance: <integer_score>
+Specificity: <integer_score>"""
+
+    from langchain_openai import ChatOpenAI
+
+    judge = ChatOpenAI(model="gpt-4o-mini", temperature=0, max_tokens=50)
+    response = judge.invoke(judge_prompt)
+    output = response.content.strip()
+    print(f"LLM Judge Output:\n{output}")
+
+    # Parse scores
+    scores = {}
+    for line in output.split("\n"):
+        line = line.strip()
+        for criterion in ("Relevance", "Specificity"):
+            if line.startswith(criterion):
+                score_str = line.split(":")[-1].strip()
+                # Handle formats like "4", "4/5", "4.0"
+                score_str = score_str.split("/")[0].strip()
+                scores[criterion] = float(score_str)
+
+    assert "Relevance" in scores, f"Could not parse Relevance score from: {output}"
+    assert "Specificity" in scores, f"Could not parse Specificity score from: {output}"
+    assert scores["Relevance"] >= 3, (
+        f"Relevance score {scores['Relevance']}/5 below threshold. Output: {tailored_desc[:100]}..."
+    )
+    assert scores["Specificity"] >= 3, (
+        f"Specificity score {scores['Specificity']}/5 below threshold. Output: {tailored_desc[:100]}..."
     )
